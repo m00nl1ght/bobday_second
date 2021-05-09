@@ -1,21 +1,21 @@
 <template>
   <HomeWork>
       <template v-slot:default>
-        <HomeWorkForm />
+        <HomeWorkCalendar />
       </template>
   </HomeWork>
 </template>
 
 <script>
 import HomeWork from '@/components/HomeWork'
-import HomeWorkForm from '@/components/HomeWorkForm'
+import HomeWorkCalendar from '@/components/HomeWorkCalendar'
 
 export default {
-  name: 'Home',
+  name: 'Calendar',
 
   components: {
     HomeWork,
-    HomeWorkForm
+    HomeWorkCalendar
   }
 }
 </script>
