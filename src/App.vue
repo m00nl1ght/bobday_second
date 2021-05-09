@@ -21,5 +21,9 @@ export default {
   data: () => ({
     //
   }),
+      beforeCreate: function(){
+
+        console.log(this.getWeekNumber(this.$store.getters['datetime/getCurrentDate']))
+    }
 };
 </script>

@@ -1,14 +1,13 @@
 <template>
     <v-row class="justify-center align-center">
-        <div class="table__row">
-            <div class="date_block"></div>
+        <div v-for="user in users" :key='user.id' class="table__row">
+            <div class="date_block">{{ user.name }}</div>
             <div v-for="(day, index) in days"
                 :key="index"
                 class="date_block"
-                @click="onClick(formatDate(currentDate, index))"
+                :class="user.workDay.indexOf( formatDate(currentDate, index) ) != -1 ? 'isActive': ''"
             >
-                {{ day }}
-                {{ printDay(currentDate, index) }}
+              {{formatDate(currentDate, index)}}
             </div>
         </div>
     </v-row>
@@ -21,14 +20,16 @@ export default {
     }),
 
     methods: {
-        onClick(day) {
-            this.$emit('onClick', day)
-        }
+
     },
 
     computed: {
         currentDate() {
             return this.$store.getters['datetime/getCurrentDate']
+        },
+
+        users() {
+            return this.$store.getters['user/getUsers']
         }
     }
 
@@ -55,6 +56,10 @@ export default {
     .table__row {
         display: flex;
         width: 100%;
+    }
+
+    .isActive {
+        background: linear-gradient(#b9ead1 0%, #b9ead1 10%, #eafff6 10%, #eafff6 100%)
     }
 
     .bg-green {
