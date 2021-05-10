@@ -7,7 +7,6 @@
                 class="date_block"
                 :class="user.workDay.indexOf( formatDate(currentDate, index) ) != -1 ? 'isActive': ''"
             >
-              {{formatDate(currentDate, index)}}
             </div>
         </div>
     </v-row>

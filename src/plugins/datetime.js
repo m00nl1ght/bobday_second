@@ -8,27 +8,18 @@ datetimePlugin.install = function (Vue, options) {
 
   //вызов через this.myMethod()
   Vue.prototype.getWeekNumber = function (date) {
-    // текущее дата/время
-    const currentDateTime = new Date(date);
+    // // текущее дата/время
+    // Copy date so don't modify original
+    let d = new Date(date);
+    // Set to nearest Thursday: current date + 4 - current day number
+    // Make Sunday's day number 7
+    d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay()||7));
+    // Get first day of year
+    var yearStart = new Date(Date.UTC(d.getUTCFullYear(),0,1));
+    // Calculate full weeks to nearest Thursday
+    var weekNo = Math.ceil(( ( (d - yearStart) / 86400000) + 1)/7);
 
-    // время начала текущего года, в миллисекундах
-    const startTimeOfCurrentYear = (new Date(currentDateTime.getFullYear(), 0, 1)).getTime();
-
-    // текущее время в миллисекундах
-    const currentTime = currentDateTime.getTime();
-
-    // прошедшее время с начала года, в миллисекундах
-    const pastTimeOfStartCurrentYear = currentTime - startTimeOfCurrentYear;
-
-    // количество миллисекунд в одном часе
-    const hourOfMillisecs = 3600000;
-
-    // количество часов в одном дне
-    const hoursOfOneWeek = 24;
-      
-    // document.write("Прошло " + (pastTimeOfStartCurrentYear / hourOfMillisecs / hoursOfOneWeek|0) + " дней<br />");
-    // document.write("Сегодня " + Math.ceil(pastTimeOfStartCurrentYear / hourOfMillisecs / hoursOfOneWeek) + " день");
-    return Math.ceil(pastTimeOfStartCurrentYear / hourOfMillisecs / hoursOfOneWeek / 7)
+    return weekNo;
   },
 
   Vue.prototype.getMonday = function (date) {
@@ -47,8 +38,9 @@ datetimePlugin.install = function (Vue, options) {
 
   Vue.prototype.formatDate = function (date, index = 0) {
     let d = new Date(date);
+    d.setDate(d.getDate() + index);
 
-    let dd = d.getDate() + index;
+    let dd = d.getDate();
     if (dd < 10) dd = '0' + dd;
   
     let mm = d.getMonth() + 1;
@@ -62,9 +54,10 @@ datetimePlugin.install = function (Vue, options) {
   },
 
   Vue.prototype.printDay = function (date, index) {
-    let d = new Date(date);
+    let d = new Date(date)
+    d.setDate(d.getDate() + index);
 
-    let dd = d.getDate() + index;
+    let dd = d.getDate();
     if (dd < 10) dd = '0' + dd;
   
     return dd;

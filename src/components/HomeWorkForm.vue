@@ -38,6 +38,7 @@ export default {
 
         onSubmit() {
             this.$store.dispatch('user/addWeekDay', this.selectedDay)
+            this.$router.push('Calendar')
         }
     }
 }
